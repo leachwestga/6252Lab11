@@ -18,7 +18,7 @@ class Controller
         $this->setupConnection();
         $this->connectToDatabase();
         $this->action = $this->getAction();
-        $this->twig->addGlobal('session', $SESSION);
+        $this->twig->addGlobal('session', $_SESSION);
     }
     
     /**
@@ -84,7 +84,8 @@ class Controller
             header("Location: .?action=Show Tasks");
         } else {
             $login_message = 'Invalid username or password';
-            include('./view/login.php');
+            $template = $this->twig->load('login.twig');
+            echo $template->render(['login_message' => $login_message]);
         }
     }
     
