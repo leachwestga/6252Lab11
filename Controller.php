@@ -150,12 +150,10 @@ class Controller
      */
     private function processShowTasks() {
         if (!isset($_SESSION['is_valid_user'])) {
-            echo "NOT VALID USER";
             $login_message = 'Log in to manage your tasks.';
             $template = $this->twig->load('login.twig');
             echo $template->render(['login_message' => $login_message]);
         } else {
-            echo "VALID USER!";
             $errors = array();
             $tasks = $this->db->getTasksForUser($_SESSION['username']);
             $template = $this->twig->load('task_list.twig');
@@ -175,7 +173,8 @@ class Controller
             $this->db->addTask($_SESSION['username'], $new_task);
         }
         $tasks = $this->db->getTasksForUser($_SESSION['username']);
-        include './view/task_list.php';
+                    $template = $this->twig->load('task_list.twig');
+            echo $template->render(['tasks' => $tasks, 'errors' => $errors]);
     }
     
     /**
@@ -190,7 +189,8 @@ class Controller
             $this->db->deleteTask($task_id);
         }
         $tasks = $this->db->getTasksForUser($_SESSION['username']);
-        include './view/task_list.php';
+                    $template = $this->twig->load('task_list.twig');
+            echo $template->render(['tasks' => $tasks, 'errors' => $errors]);
     }
     
     /**

@@ -15,7 +15,7 @@
     {% endfor %}
         </ul>
     {% endif %}
-        
+    
   <!-- part 2: the tasks -->
     <h2>Tasks:</h2>
     {% if tasks|length == 0 %}
@@ -24,23 +24,20 @@
         <il>
         {%  set taskNum = 1 %}
         {%  for task in tasks %}
-            <li>{{taskNum}}. {{task['task']}}</li>
+            <li>{{taskNum}}. 
+                {% apply upper %}
+                {{task['task']}}
+                {% endapply %}
+            </li>
         {% set taskNum = taskNum + 1 %}
         {% endfor %}
         </il>
     {% endif %}
         <ul>
+            <br>
 
-        <?php $count = 1; ?>
-        <?php foreach( $tasks as $task ) : ?>
-            <li><?php echo $count . '. ' . strtoupper($task['task']); ?></li>
-            <?php $count++; ?>
-        <?php endforeach; ?>
-        </ul>
-    <?php endif; ?>
-    <br>
-
-    {#
+            
+            
     <!-- part 3: the add form -->
     <h2>Add Task:</h2>
     <form action="." method="post" >
@@ -52,24 +49,23 @@
     <br>
 
     <!-- part 4: the delete form -->
-    <?php if (count($tasks) > 0) : ?>
+    {%  if tasks|length > 0 %}
     <h2>Select Task:</h2>
     <form action="." method="post" >
         <label>Task:</label>
         <select name="taskid">
-            <?php foreach( $tasks as $task ) : ?>
-                <option value="<?php echo $task['taskID']; ?>">
-                    <?php echo $task['task']; ?>
+            {% for task in tasks %}
+                <option value={{ task['taskID'] }}>
+                    {{ task['task'] }}
                 </option>
-            <?php endforeach; ?>
-        </select>
+                {% endfor %}
+            </select>
         <br>
         <label>&nbsp;</label>
         <input type="submit" name="action" value="Delete Task">
     </form>
-    <?php endif; ?>
-
-#}
+    {% endif %}
+    
 
 </main>
 </body>
