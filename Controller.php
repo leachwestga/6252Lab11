@@ -112,7 +112,10 @@ class Controller
         
         if (!empty($error_username) || !empty($error_password)) {
             $template = $this->twig->load('registration.twig');
-            echo $template->render();
+            
+            echo $template->render(['error_username' => $error_username, 
+                                    'error_password' => $error_password,
+                                     'prev_username' => $username]);
         } else {
             $this->db->addUser($username, $password);
             $_SESSION['is_valid_user'] = true;
